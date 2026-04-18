@@ -5,6 +5,12 @@ services:
     volumes:
       - ./:/usr/share/nginx/html:ro
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.webflowcn.rule=Host(`webflowcn.com`) || Host(`www.webflowcn.com`)
+      - traefik.http.routers.webflowcn.entrypoints=websecure
+      - traefik.http.routers.webflowcn.tls.certresolver=letsencrypt
+      - traefik.http.services.webflowcn.loadbalancer.server.port=80
     networks:
       - dokploy-network
 
